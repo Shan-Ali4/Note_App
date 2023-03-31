@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(240, 233, 233);
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #notes-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px auto;
+            max-width: 900px;
+        }
+
+        .note {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .note h2 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+
+        .note p {
+            font-size: 18px;
+            line-height: 1.4;
+            margin: 10px 0;
+        }
+
+        .note small {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .note button {
+            margin-left: 8px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .note button:hover {
+            background-color: #8a000e;
+        }
+    </style>
+    <title>Notes</title>
+</head>
+
+<body>
+    <h1>Notes</h1>
+    <div id="notes-container"></div>
+</body>
+<script>
+    const notesContainer = document.getElementById('notes-container');
+
+    fetch('https://nice-plum-ostrich-veil.cyclic.app/notes/', {
+        headers: {
+            'Authorization': localStorage.getItem('token')
+        }
+    })
+        .then(res => res.json())
+        .then(notes => {
+            notes.forEach(note => {
+                const noteElem = document.createElement('div');
+                noteElem.classList.add('note');
+
+                const titleElem = document.createElement('h2');
+                titleElem.innerText = note.title;
+                noteElem.appendChild(titleElem);
+
+                const bodyElem = document.createElement('p');
+                bodyElem.innerText = note.body;
+                noteElem.appendChild(bodyElem);
+
+                const subElem = document.createElement('small');
+                subElem.innerText = note.sub;
+                noteElem.appendChild(subElem);
+
+                const editButton = document.createElement('button');
+                editButton.innerText = 'Edit';
+                editButton.addEventListener('click', () => {
+                    const editForm = document.createElement('form');
+                    editForm.innerHTML = `
+                <label for="title">Title:</label>
+                <input type="text" name="title" value="${note.title}" required><br>
+                <label for="body">Body:</label>
+                <textarea name="body" required>${note.body}</textarea><br>
+                <label for="sub">Sub:</label>
+                <input type="text" name="sub" value="${note.sub}" required><br>
+                <button type="submit">Save</button>
+            `;
+                    noteElem.replaceWith(editForm);
+
+                    editForm.addEventListener('submit', (event) => {
+                        event.preventDefault();
+
+                        const formData = new FormData(event.target);
+                        const updatedNote = {
+                            title: formData.get('title'),
+                            body: formData.get('body'),
+                            sub: formData.get('sub')
+                        };
+
+                        fetch(`https://nice-plum-ostrich-veil.cyclic.app/notes/update/${note._id}`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': localStorage.getItem('token')
+                            },
+                            body: JSON.stringify(updatedNote)
+                        })
+                            .then(res => res.json())
+                            .then(res => {
+                                const updatedNoteElem = createNoteElement(res.note);
+                                editForm.replaceWith(updatedNoteElem);
+                            })
+                            .catch(err => console.error(err));
+                    });
+                });
+                noteElem.appendChild(editButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'Delete';
+                deleteButton.addEventListener('click', () => {
+                    fetch(`https://nice-plum-ostrich-veil.cyclic.app/notes/delete/${note._id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': localStorage.getItem('token')
+                        }
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                            noteElem.remove();
+                        })
+                        .catch(err => console.error(err));
+                });
+                noteElem.appendChild(deleteButton);
+
+                notesContainer.appendChild(noteElem);
+            });
+        })
+        .catch(err => console.error(err));
+</script>
+
+</html>

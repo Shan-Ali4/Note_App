@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    h1 {
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 20px;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+    }
+
+    form {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      margin: 50px auto;
+      max-width: 500px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+      resize: vertical;
+    }
+
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    a {
+    margin-left: 8px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+  }
+
+  a:hover {
+    background-color: #0069d9;
+  }
+  </style>
+  <title>Create Note</title>
+</head>
+
+<body>
+  <h1>Create Note!</h1>
+  <form>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+    <label for="body">Body:</label>
+    <textarea id="body" name="body" rows="4" required></textarea>
+    <label for="sub">Sub:</label>
+    <input type="text" id="sub" name="sub" required>
+    <input type="submit" value="Add">
+    <a href="./notes.html" id="note"> View Notes </a>
+  </form>
+  
+</body>
+<script>
+  const note = document.getElementById("note")
+  const form = document.querySelector("form");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const payload = {
+      title: document.getElementById("title").value,
+      body: document.getElementById("body").value,
+      sub: document.getElementById("sub").value,
+    };
+    console.log(payload);
+    fetch("https://nice-plum-ostrich-veil.cyclic.app/notes/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("token")
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        alert("Note added successfully!");
+        note.style.display = 'inline-block'
+        // form.reset();
+      })
+      .catch((err) => console.log(err));
+  });
+</script>
+
+</html>
