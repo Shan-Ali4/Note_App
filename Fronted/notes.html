@@ -74,7 +74,7 @@
 <script>
     const notesContainer = document.getElementById('notes-container');
 
-    fetch('https://nice-plum-ostrich-veil.cyclic.app/notes/', {
+    fetch('http://localhost:4500/notes', {
         headers: {
             'Authorization': localStorage.getItem('token')
         }
@@ -122,7 +122,7 @@
                             sub: formData.get('sub')
                         };
 
-                        fetch(`https://nice-plum-ostrich-veil.cyclic.app/notes/update/${note._id}`, {
+                        fetch(`http://localhost:4500/notes/update/${note._id}`, {
                             method: 'PATCH',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -143,7 +143,7 @@
                 const deleteButton = document.createElement('button');
                 deleteButton.innerText = 'Delete';
                 deleteButton.addEventListener('click', () => {
-                    fetch(`https://nice-plum-ostrich-veil.cyclic.app/notes/delete/${note._id}`, {
+                    fetch(`http://localhost:4500/notes/delete/${note._id}`, {
                         method: 'DELETE',
                         headers: {
                             'Authorization': localStorage.getItem('token')

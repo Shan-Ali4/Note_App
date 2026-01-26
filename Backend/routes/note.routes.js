@@ -39,14 +39,17 @@ const jwt=require("jsonwebtoken")
  */
 noteRouter.get("/",async(req,res)=>{
     const token=req.headers.authorization
-    const decoded=jwt.verify(token,"masai")
     try{
+        if(!token){
+            return res.status(400).send({"msg":"No token provided"})
+        }
+        const decoded=jwt.verify(token,"masai")
         if(decoded){
             const notes=await NoteModel.find({"userID":decoded.userID})
             res.status(200).send(notes)
         }
     } catch(err){
-        res.status(400).send({"msg":err.message}) 
+        res.status(400).send({"msg":"Token error: " + err.message}) 
     }
 })
 /**

@@ -77,19 +77,32 @@ const bcrypt=require("bcrypt")
  */
 userRouter.post("/register", async (req, res) => {
     const { email, password, location, age } = req.body;
+    
+    // Validate all required fields
+    if (!email || !password || !location || !age) {
+      return res.status(400).json({ 
+        msz: "All fields required: email, password, location, age" 
+      });
+    }
+
     try {
       const existingUser = await UserModel.findOne({ email });
       if (existingUser) {
         return res.status(400).json({ message: "User already exists" });
       }
       bcrypt.hash(password, 5, async (err, hash) => {
+        if (err) {
+          console.log("Hash error:", err);
+          return res.status(500).json({ msz: "Error hashing password", err });
+        }
         const user = new UserModel({ email, password: hash, location, age });
         await user.save();
-        console.log(user);
+        console.log("User registered:", user);
         res.status(200).send({ msz: "Registration has been done!" });
       });
     } catch (err) {
-      res.status(500).send({ msz: "There Is Err", err });
+      console.log("Registration error:", err.message);
+      res.status(500).send({ msz: "Error during registration", err: err.message });
     }
   });
 
@@ -159,19 +172,29 @@ userRouter.post("/register", async (req, res) => {
 
 userRouter.post("/login",async(req,res)=>{
   const {email,password}=req.body
+  
+  if(!email || !password){
+    return res.status(400).send({"msg":"Email and password required"})
+  }
+  
   try{
       const user=await UserModel.findOne({email})
-      if(user){
-          bcrypt.compare(password,user.password, (err, result) => {
-              if(result){
-                  res.status(200).send({"msg":"Login successfull!","token":jwt.sign({"userID":user._id},"masai")})
-              } else {
-                  res.status(400).send({"msg":"Wrong Credentials"})
-              }
-          });
+      if(!user){
+          return res.status(400).send({"msg":"User not found"})
       }
+      
+      bcrypt.compare(password,user.password, (err, result) => {
+          if(err){
+              return res.status(400).send({"msg":"Error comparing password: " + err.message})
+          }
+          if(result){
+              res.status(200).send({"msg":"Login successfull!","token":jwt.sign({"userID":user._id},"masai"), "userID": user._id})
+          } else {
+              res.status(400).send({"msg":"Wrong Credentials"})
+          }
+      });
   }catch(err){
-      res.status(400).send({"msg":err.message})
+      res.status(400).send({"msg":"Login error: " + err.message})
   }
 })
 

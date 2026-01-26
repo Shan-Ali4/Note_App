@@ -99,7 +99,7 @@
       sub: document.getElementById("sub").value,
     };
     console.log(payload);
-    fetch("https://nice-plum-ostrich-veil.cyclic.app/notes/add", {
+    fetch("http://localhost:4500/notes/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
