@@ -1,0 +1,44 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5b21b6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main Circle Background -->
+  <circle cx="100" cy="100" r="95" fill="url(#logoGradient)" />
+  
+  <!-- Inner Light Circle -->
+  <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+  
+  <!-- Document/Notepad Shape -->
+  <rect x="55" y="45" width="90" height="110" rx="8" fill="white" opacity="0.95" />
+  
+  <!-- Left Border Accent -->
+  <rect x="55" y="45" width="6" height="110" rx="3" fill="#06b6d4" />
+  
+  <!-- Lines representing text -->
+  <line x1="70" y1="65" x2="125" y2="65" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" />
+  <line x1="70" y1="80" x2="135" y2="80" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="70" y1="92" x2="135" y2="92" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="70" y1="104" x2="135" y2="104" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="70" y1="116" x2="120" y2="116" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" />
+  <line x1="70" y1="128" x2="130" y2="128" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" />
+  
+  <!-- Pen/Pencil Icon -->
+  <g transform="translate(140, 55)">
+    <!-- Pen body -->
+    <rect x="-8" y="0" width="6" height="35" rx="2" fill="#06b6d4" />
+    <!-- Pen tip -->
+    <polygon points="0,35 -6,45 6,45" fill="#06b6d4" />
+    <!-- Pen cap -->
+    <rect x="-9" y="-5" width="8" height="6" rx="1" fill="#7c3aed" />
+  </g>
+  
+  <!-- Decorative dots -->
+  <circle cx="85" cy="155" r="2.5" fill="rgba(255,255,255,0.6)" />
+  <circle cx="100" cy="158" r="2.5" fill="rgba(255,255,255,0.6)" />
+  <circle cx="115" cy="155" r="2.5" fill="rgba(255,255,255,0.6)" />
+</svg>
