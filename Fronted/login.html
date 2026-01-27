@@ -5,45 +5,133 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <form>
-      <label for="email">Email:</label>
-      <input type="text" id="email" name="email" required>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-      <input type="submit" value="Login">
-            <p class="para-2">Don't have an account? <a href="index.html">Sign up</a></p>
-    </form>
-  </body>
-  <script>
-    const form = document.querySelector("form")
-    form.addEventListener("submit",(e) => {
-        e.preventDefault()
-        const payload = {
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value,
-        }
-        // console.log(payload)
-        fetch("http://localhost:4500/route/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload)
-            }).then(res=>res.json())
-            .then(res=>{
-                
-                alert("Successfully Login!")
-                localStorage.setItem("token",res.token)
-                // clear input fields
-                document.getElementById("email").value = ""
-                document.getElementById("password").value = ""
-                window.location.href = './createNotes.html'
-            })
-            .catch(err=>console.log(err))
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <title>Login</title>
+    </head>
+
+    <body>
+        <nav class="navbar">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-logo">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#5b21b6;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="100" cy="100" r="95" fill="url(#logoGradient)" />
+                        <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+                        <rect x="55" y="45" width="90" height="110" rx="8" fill="white" opacity="0.95" />
+                        <rect x="55" y="45" width="6" height="110" rx="3" fill="#06b6d4" />
+                        <line x1="70" y1="65" x2="125" y2="65" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" />
+                        <line x1="70" y1="80" x2="135" y2="80" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" />
+                        <line x1="70" y1="92" x2="135" y2="92" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" />
+                        <line x1="70" y1="104" x2="135" y2="104" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" />
+                        <line x1="70" y1="116" x2="120" y2="116" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" />
+                        <line x1="70" y1="128" x2="130" y2="128" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" />
+                        <g transform="translate(140, 55)">
+                            <rect x="-8" y="0" width="6" height="35" rx="2" fill="#06b6d4" />
+                            <polygon points="0,35 -6,45 6,45" fill="#06b6d4" />
+                            <rect x="-9" y="-5" width="8" height="6" rx="1" fill="#7c3aed" />
+                        </g>
+                        <circle cx="85" cy="155" r="2.5" fill="rgba(255,255,255,0.6)" />
+                        <circle cx="100" cy="158" r="2.5" fill="rgba(255,255,255,0.6)" />
+                        <circle cx="115" cy="155" r="2.5" fill="rgba(255,255,255,0.6)" />
+                    </svg>
+                </div>
+                <span class="navbar-title">NotesHub</span>
+            </a>
+        </nav>
+        <div class="content-wrapper">
+            <h1>Login</h1>
+            <form>
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <input type="submit" value="Login">
+                <p class="para-2">
+                    Don't have an account? <a href="index.html">Sign up</a>
+                </p>
+            </form>
+        </div>
+    <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-section footer-info">
+        <h3 class="footer-name">Shan Ali</h3>
+        <p class="footer-role">Full Stack / MERN Stack Developer</p>
+        <p class="footer-description">Building modern web applications with clean code and great UX.</p>
+      </div>
+
+      <div class="footer-section footer-contact-section">
+        <h4>Get in Touch</h4>
+        <form id="contact-form" class="footer-contact-form">
+          <input type="email" placeholder="your@email.com" required aria-label="Email address">
+          <button type="submit" aria-label="Send message">Send</button>
+        </form>
+        <p class="footer-email"><a href="mailto:your@email.com">your@email.com</a></p>
+      </div>
+
+      <div class="footer-section footer-social-section">
+        <h4>Follow</h4>
+        <div class="social-links">
+          <a href="https://github.com/Shan-Ali4" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/shan-ali-a28074207/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+          <a href="mailto:your@email.com" aria-label="Email" title="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Shan Ali. All rights reserved.</p>
+      <p>NotesHub &mdash; Modern Note Taking Application</p>
+    </div>
+  </footer>
+</body>
+    <script>
+        const form = document.querySelector("form")
+        form.addEventListener("submit", (e) => {
+            e.preventDefault()
+            const payload = {
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+            }
+            fetch("http://localhost:4500/route/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload)
+                }).then(res => res.json())
+                .then(res => {
+                    alert("Successfully Login!")
+                    localStorage.setItem("token", res.token)
+                    document.getElementById("email").value = ""
+                    document.getElementById("password").value = ""
+                    window.location.href = './createNotes.html'
+                })
+                .catch(err => console.log(err))
         })
-  </script>
-</html>
+    </script>
+
+    </html>
