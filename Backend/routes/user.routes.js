@@ -189,8 +189,9 @@ userRouter.post("/login",async(req,res)=>{
               return res.status(400).send({"msg":"Error comparing password"})
           }
           
-          if(result === true){
-              const token = jwt.sign({"userID":user._id},"masai")
+            if(result === true){
+              const secret = process.env.JWT_SECRET || 'masai'
+              const token = jwt.sign({"userID":user._id}, secret)
               res.status(200).send({"msg":"Login successfull!","token":token, "userID": user._id})
           } else {
               console.log("Password mismatch for user:", email)

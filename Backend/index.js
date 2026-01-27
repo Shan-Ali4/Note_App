@@ -40,12 +40,14 @@ app.use("/documentation/users",swaggerUI.serve,swaggerUI.setup(swaggerSpec))
 app.use("/route",userRouter)
 app.use(auth)
 app.use("/notes",noteRouter)
-app.listen(process.env.port,async ()=>{
+const PORT = process.env.PORT || process.env.port || 4500;
+
+app.listen(PORT,async ()=>{
     try{
         await connection
         console.log("Connected With DB")
     }catch(err){
         console.log(err)
     }
-    console.log(`Server is running at port ${process.env.port}`)
+    console.log(`Server is running at port ${PORT}`)
 })

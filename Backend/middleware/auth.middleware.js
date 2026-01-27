@@ -6,7 +6,8 @@ const auth=(req,res,next)=>{
        try{
            // Extract token from "Bearer <token>" format or use token directly
            const actualToken = token.startsWith('Bearer ') ? token.slice(7) : token
-           const decoded = jwt.verify(actualToken,'masai')
+           const secret = process.env.JWT_SECRET || 'masai'
+           const decoded = jwt.verify(actualToken, secret)
            console.log(decoded)
            req.body.userID=decoded.userID
            next()
