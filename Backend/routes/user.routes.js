@@ -88,12 +88,12 @@ userRouter.post("/register", async (req, res) => {
     try {
       const existingUser = await UserModel.findOne({ email });
       if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
+        return res.status(400).json({ msz: "User already exists with this email" });
       }
       bcrypt.hash(password, 5, async (err, hash) => {
         if (err) {
           console.log("Hash error:", err);
-          return res.status(500).json({ msz: "Error hashing password", err });
+          return res.status(500).json({ msz: "Error hashing password" });
         }
         const user = new UserModel({ email, password: hash, location, age });
         await user.save();
@@ -102,7 +102,7 @@ userRouter.post("/register", async (req, res) => {
       });
     } catch (err) {
       console.log("Registration error:", err.message);
-      res.status(500).send({ msz: "Error during registration", err: err.message });
+      res.status(500).send({ msz: "Error during registration" });
     }
   });
 
@@ -183,18 +183,23 @@ userRouter.post("/login",async(req,res)=>{
           return res.status(400).send({"msg":"User not found"})
       }
       
-      bcrypt.compare(password,user.password, (err, result) => {
+      bcrypt.compare(password,user.password, async (err, result) => {
           if(err){
-              return res.status(400).send({"msg":"Error comparing password: " + err.message})
+              console.log("Bcrypt compare error:", err)
+              return res.status(400).send({"msg":"Error comparing password"})
           }
-          if(result){
-              res.status(200).send({"msg":"Login successfull!","token":jwt.sign({"userID":user._id},"masai"), "userID": user._id})
+          
+          if(result === true){
+              const token = jwt.sign({"userID":user._id},"masai")
+              res.status(200).send({"msg":"Login successfull!","token":token, "userID": user._id})
           } else {
+              console.log("Password mismatch for user:", email)
               res.status(400).send({"msg":"Wrong Credentials"})
           }
       });
   }catch(err){
-      res.status(400).send({"msg":"Login error: " + err.message})
+      console.log("Login error:", err.message)
+      res.status(400).send({"msg":"Login error"})
   }
 })
 

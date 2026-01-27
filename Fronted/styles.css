@@ -1116,3 +1116,77 @@ body {
         border-color: var(--primary-light);
     }
 }
+
+/* Logout Button */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, var(--danger-color), var(--danger-light));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+    margin-left: auto;
+}
+
+.logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+    background: linear-gradient(135deg, var(--danger-light), var(--danger-color));
+}
+
+.logout-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(220, 38, 38, 0.15);
+}
+
+.logout-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+@media (max-width: 768px) {
+    .logout-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+    }
+    
+    .logout-btn span {
+        display: none;
+    }
+}
+
+/* Auth guard overlay */
+.auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+.auth-overlay.active { display: flex; }
+.auth-overlay .auth-box {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+}
+.auth-overlay h3 { margin: 0 0 0.5rem 0; }
+.auth-overlay p { margin: 0 0 1rem 0; color: var(--text-secondary); }
+.auth-overlay .auth-actions { display:flex; gap:0.5rem; justify-content:center; }
+.auth-overlay .auth-actions button { padding:0.5rem 0.75rem; border-radius:8px; border:none; cursor:pointer; }
+.auth-overlay .auth-actions .btn-login { background:linear-gradient(90deg,var(--primary-light),var(--primary-color)); color:white; }
+.auth-overlay .auth-actions .btn-close { background:transparent; border:1px solid var(--border-color); color:var(--text-primary); }
