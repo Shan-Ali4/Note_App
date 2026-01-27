@@ -263,6 +263,81 @@ textarea::placeholder {
     color: var(--text-light);
 }
 
+/* Password Wrapper Styles */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.password-wrapper input[type="password"] {
+    width: 100%;
+    padding-right: 2.5rem;
+    margin-bottom: 0;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--text-secondary);
+    transition: var(--transition);
+    padding: 0.25rem;
+}
+
+.toggle-password:hover {
+    color: var(--primary-light);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.toggle-password:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.toggle-password svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.toggle-password svg[style*="display: none"] {
+    opacity: 0;
+    transform: rotate(-180deg);
+}
+
+.toggle-password svg:not([style*="display: none"]) {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+/* Animation for icon switch */
+@keyframes iconSwitch {
+    0% {
+        opacity: 0;
+        transform: rotate(-180deg);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+}
+
+.toggle-password svg.eye-icon.active,
+.toggle-password svg.eye-off-icon.active {
+    animation: iconSwitch 0.3s ease-in-out;
+}
+
 /* ==========================================
    SUBMIT BUTTON
    ========================================== */
