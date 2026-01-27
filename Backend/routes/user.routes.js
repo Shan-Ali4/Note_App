@@ -90,19 +90,14 @@ userRouter.post("/register", async (req, res) => {
       if (existingUser) {
         return res.status(400).json({ msz: "User already exists with this email" });
       }
-      bcrypt.hash(password, 5, async (err, hash) => {
-        if (err) {
-          console.log("Hash error:", err);
-          return res.status(500).json({ msz: "Error hashing password" });
-        }
-        const user = new UserModel({ email, password: hash, location, age });
-        await user.save();
-        console.log("User registered:", user);
-        res.status(200).send({ msz: "Registration has been done!" });
-      });
+      const hash = await bcrypt.hash(password, 5);
+      const user = new UserModel({ email, password: hash, location, age });
+      await user.save();
+      console.log("User registered:", user);
+      res.status(200).json({ msz: "Registration has been done!" });
     } catch (err) {
       console.log("Registration error:", err.message);
-      res.status(500).send({ msz: "Error during registration" });
+      res.status(500).json({ msz: "Error during registration", err: err.message });
     }
   });
 
