@@ -183,7 +183,7 @@
                     sub: formData.get('sub')
                 };
 
-                fetch(`http://localhost:4500/notes/update/${note._id}`, {
+                fetch(`https://note-app-t9ok.onrender.com/notes/update/${note._id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -213,7 +213,7 @@
         const deleteButton = document.createElement('button');
         deleteButton.innerText = 'Delete';
         deleteButton.addEventListener('click', () => {
-            fetch(`http://localhost:4500/notes/delete/${note._id}`, {
+            fetch(`https://note-app-t9ok.onrender.com/notes/delete/${note._id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': localStorage.getItem('token')
@@ -244,7 +244,7 @@
     }
 
     // Fetch and display notes
-    fetch('http://localhost:4500/notes', {
+    fetch('https://note-app-t9ok.onrender.com/notes', {
         headers: {
             'Authorization': localStorage.getItem('token')
         }
